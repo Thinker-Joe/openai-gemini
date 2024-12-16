@@ -1,18 +1,30 @@
 name: Deploy Worker
+
 on:
   push:
     branches:
       - main
   pull_request:
   repository_dispatch:
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     name: Deploy
+
     steps:
-      - uses: actions/checkout@v4
-      - name: Build & Deploy Worker
+      - name: Checkout code
+        uses: actions/checkout@v4 # Use v4 for the checkout Action
+
+      - name: Setup Node.js # NEW STEP: Explicitly install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18 # Specify the desired Node.js version (16,18,20)
+
+      - name: Build & Deploy Worker 
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          # wrangler-command: "publish" #Uncomment if needed and add options, by default wrangler will 'publish'.
+          # wrangler-version: "3.27.1" #You can specify the wrangler version. By default, it's latest version.
