@@ -24,7 +24,7 @@ jobs:
       - name: Build & Deploy Worker 
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.CF_API_TOKEN }}
-          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           # wrangler-command: "publish" #Uncomment if needed and add options, by default wrangler will 'publish'.
           # wrangler-version: "3.27.1" #You can specify the wrangler version. By default, it's latest version.
