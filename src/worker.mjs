@@ -330,6 +330,19 @@ const transformRequest = async (req) => {
     safetySettings,
     generationConfig: transformConfig(req)
   };
+
+  // 检查是否有 tools 并且 tools 数组中包含 googleSearch 函数
+  if (Array.isArray(req.tools)) {
+    const hasGoogleSearch = req.tools.some(tool => {
+      return tool.type === 'function' && tool.function?.name === 'googleSearch';
+    });
+
+    if (hasGoogleSearch) {
+      baseRequest.tools = [{
+        "google_search": {}
+      }];
+    }
+  }
   // 其他模型返回原始请求
   return baseRequest;
 };
