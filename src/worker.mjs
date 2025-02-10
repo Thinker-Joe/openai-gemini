@@ -324,14 +324,27 @@ const transformMessages = async (messages) => {
   return { system_instruction, contents };
 };
 
-const transformRequest = async (req) => ({
-  ...await transformMessages(req.messages),
-  safetySettings,
-  generationConfig: transformConfig(req),
-  tools: [{
-            "google_search": {}
-  }]
-});
+const transformRequest = async (req) => {
+  const baseRequest = {
+    ...await transformMessages(req.messages),
+    safetySettings,
+    generationConfig: transformConfig(req)
+  };
+
+  // 检查模型是否以 gemini-2.0-flash 开头
+  if (req.model?.startsWith('gemini-2.0-flash')) {
+    // 为 gemini-2.0-flash 模型添加 tools
+    return {
+      ...baseRequest,
+      tools: [{
+        "google_search": {}
+      }]
+    };
+  }
+
+  // 其他模型返回原始请求
+  return baseRequest;
+};
 
 const generateChatcmplId = () => {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
