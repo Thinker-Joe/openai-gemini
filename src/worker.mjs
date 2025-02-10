@@ -331,8 +331,8 @@ const transformRequest = async (req) => {
     generationConfig: transformConfig(req)
   };
 
-  // 检查模型是否以 gemini-2.0-flash 开头
-  if (req.model?.startsWith('gemini-2.0-flash')) {
+  // 检查模型是否以 gemini-2.0-flash-exp 开头
+  if (req.model?.startsWith('gemini-2.0-flash-exp')) {
     // 为 gemini-2.0-flash 模型添加 tools
     return {
       ...baseRequest,
